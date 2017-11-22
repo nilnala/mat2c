@@ -19,8 +19,9 @@ using namespace arma;
 
 
 mat fft(mat) {
-	
-
+	mat a(1, 1);
+	a(1, 1) = 0;
+	return a;
 }
 /*
 void zero_cross(mat xx, int fs) {
@@ -106,7 +107,7 @@ int main() {
 	string dest;
 	cin >> dest;
 	mat x;
-	int Fs;
+	int Fs = 0;
 	audioread(dest,x,Fs);
 	int wlen = 300, inc = 80;
 	mat win = hanning(wlen);
