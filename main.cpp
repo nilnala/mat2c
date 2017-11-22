@@ -13,16 +13,17 @@
 #include"meta.h"
 #include"hanning.h"
 #include"enframe.h"
+#include"fft.h"
+#include"Complex.h"
 #define pi 3.1415926
 using namespace std;
 using namespace arma;
 
-
-mat fft(mat) {
-	mat a(1, 1);
-	a(1, 1) = 0;
-	return a;
+Complex* mat2com(mat a) {
+	
 }
+
+
 /*
 void zero_cross(mat xx, int fs) {
 	int mean_xx = mean(xx);
@@ -123,8 +124,12 @@ int main() {
 	int W2 = wlen / 2 + 1;
 	mat n2 = meta(W2);
 	mat freq = (n2 - 1)*Fs / wlen;
-	mat Y = fft(y);
 
+	Complex* in = mat2com(y);
+
+	Complex* out = new Complex[y.n_elem];
+
+	FFT(in, out, y.n_elem);
 
 
 	int T;
