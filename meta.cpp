@@ -1,23 +1,22 @@
-#include<iostream>
-#include<algorithm>
-#include<vector>
-#include<stack>
-#include<queue>
-#include<string>
-#include<stdio.h>
-#include<memory.h>
-#include<string.h>
-#include<armadillo>
-#include<math.h>
 #include<meta.h>
 #define pi 3.1415926
 using namespace std;
 using namespace arma;
 
-mat* meta(int n) {
-	mat* x = new mat(1, n);
+mat meta(int n) {
+	mat x(1, n);
 	for (int i = 1; i <= n; i++) {
-		x->at(1, i) = i;
+		x(1, i) = i;
 	}
 	return x;
+}
+
+double mean(mat a) {
+	double s = 0;
+	for (int i = 1; i <= a.n_rows; i++) {
+		for (int j = 1; j < a.n_cols; j++) {
+			s += a(i, j);
+		}
+	}
+	return s / a.n_elem;
 }

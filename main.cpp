@@ -10,35 +10,20 @@
 #include<time.h>
 #include<armadillo>
 #include<math.h>
-#include<meta.h>
-#include<hanning.h>
-#include<enframe.h>
+#include"meta.h"
+#include"hanning.h"
+#include"enframe.h"
 #define pi 3.1415926
 using namespace std;
 using namespace arma;
 
-/*
-mat tranverse(mat x, int win, int inc);
-void audioread(string dest, mat x, int* Fs);//input dest,output x & Fs
-mat fft(mat);
-void spectrogram(mat x,int w,int o,int n,int fs,string lab);
 
+mat fft(mat) {
+	
 
-int mean(mat x) {
-	int s = 0;
-	for (int i = 0; i < x.n_cols; i++) {
-		for (int j = 0; j < x.n_rows; j++) {
-			s += x(i, j);
-		}
-	}
-	return s / x.n_cols / x.n_rows;
 }
-
-
-
-
-void zero_cross(mat xx, mat fs) {
-	//xx=xx-mean(xx)
+/*
+void zero_cross(mat xx, int fs) {
 	int mean_xx = mean(xx);
 	for (int i = 0; i < xx.n_cols; i++) {
 		for (int j = 0; j < xx.n_rows; j++) {
@@ -49,48 +34,39 @@ void zero_cross(mat xx, mat fs) {
 	int wlen = 200;
 	int inc = 80;
 
-	int win;
-	//win = hanning(wlen);
+	mat win = hanning(wlen);
 
-	//int N = length(xx);
+	int N = xx.n_elem;
 
-	mat X;
-	mat afterTran = tranverse(xx,win,inc);
-	X = enframe(afterTran);
+	mat X = enframe(xx, win, inc);//'
 	int fn = xx.n_cols;
-	for (int i = 0; i < fn; i++) {
-		zcr1(0, i) = 0;
+
+	mat zcr1(1,fn);
+	for (int i = 1; i <= fn; i++) {
+		zcr1(1, i) = 0;
 	}
 
 	for (int i = 1; i <= fn; i++) {
 		for (int j = 1; j < wlen; j++) {
-			if(X(i,j)*X(i,j+1)<0)
-				zcr1(0,i) = zcr1(0,i) + 1;
+			if(X(i,j)*X(i,j+1)<0){
+				zcr1(0, i) = zcr1(0, i) + 1;
+			}
 		}
 	}
 
-	//somtting wrong with this
-	//mat time = N / fs;
-	//mat frameTime = (((1:fn) - 1)*inc + wlen / 2) / fs;
+	mat time = meta(N - 1);
+	mat frameTime(1,fn);
+
+	for (int i = 1; i <= fn; i++) {
+		//frameTime(1,i) = ((i - 1)*inc + wlen / 2) / fs(i);//?
+	}
+
+	//draw
+
 
 }
 
-
-void pr241(string dest) {
-	string fle = dest;
-	mat x;
-	int Fs;
-	audioread(dest, x, &Fs);
-	int wlen = 300, inc = 80;
-	WIN win = hanning(wlen);
-	int N = x.n_elem;
-	int time = (N - 1) / Fs;
-	mat y = enframe(x, win, inc);//'
-	int fn = y.n_cols;
-
-
-};
-								  
+				  
 void energy(string dest) {
 	mat x;
 	int Fs;
@@ -117,13 +93,37 @@ void create_spectrogram(string dest) {
 	int w = 512;
 	int overlap_new = 256;
 	spectrogram(y, w, overlap_new, nfft, fs, "yaxis");
+	//¶ÌÊ±fft
 }
 
 */
 
+void audioread(string dest, mat x, int Fs) {
+
+}
 
 int main() {
-	hanning(200);
+	string dest;
+	cin >> dest;
+	mat x;
+	int Fs;
+	audioread(dest,x,Fs);
+	int wlen = 300, inc = 80;
+	mat win = hanning(wlen);
+	int N = x.n_elem;
+	mat time(1,N);
+	for (int i = 1; i <= N; i++)
+		time(1, i) = i / Fs;
+	mat y = enframe(x, win, inc);
+	int fn = y.n_cols;
+	mat frameTime(1,fn);
+	for (int i = 1; i <= fn; i++)
+		frameTime(1, i) = ((i - 1)*inc + wlen / 2) / Fs;
+	int W2 = wlen / 2 + 1;
+	mat n2 = meta(W2);
+	mat freq = (n2 - 1)*Fs / wlen;
+	mat Y = fft(y);
+
 
 
 	int T;
