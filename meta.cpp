@@ -4,7 +4,7 @@ using namespace std;
 using namespace arma;
 
 mat meta(int n) {
-	mat x(1, n);
+	mat x(2, n+1);
 	for (int i = 1; i <= n; i++) {
 		x(1, i) = i;
 	}

@@ -20,7 +20,11 @@ using namespace std;
 using namespace arma;
 
 Complex* mat2com(mat a) {
-	
+	int alen = a.n_cols;
+	Complex* c = new Complex[alen];
+	for (int i = 0; i < alen; i++)
+		c[i].Update(a(0, i),0);
+	return c;
 }
 
 
@@ -105,6 +109,7 @@ void audioread(string dest, mat x, int Fs) {
 }
 
 int main() {
+	
 	string dest;
 	cin >> dest;
 	mat x;
@@ -131,6 +136,15 @@ int main() {
 
 	FFT(in, out, y.n_elem);
 
+	cout << out << endl;
+	
+	mat m = { {1,2} ,{3,4} };
+	Complex* c = mat2com(m);
+	cout << c[0].Re() << endl;
+	
+
+
+	//mat a = hanning(200);
 
 	int T;
 	cin >> T;

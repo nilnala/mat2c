@@ -6,7 +6,7 @@ using namespace arma;
 
 mat hanning(int wlen) {
 	mat p = meta(wlen / 2);
-	mat w(2, wlen / 2);
+	mat w(3, wlen / 2+1);
 
 	for (int i = 1; i <= wlen / 2; i++) {
 		double t = 0.5*(1 - cos(2 * pi*p(1, i) / (wlen + 1)));

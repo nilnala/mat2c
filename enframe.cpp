@@ -17,8 +17,6 @@ using namespace arma;
 
 mat enframe(mat x, mat win, int inc) {
 	int len;
-	mat x1 = x;
-	int nx = x1.n_elem;
 	int nwin = win.n_elem;
 	if (nwin == 1) {
 		len = win(0);
@@ -30,8 +28,10 @@ mat enframe(mat x, mat win, int inc) {
 	if (inc == -1) {
 		inc = len;
 	}
+	cout << "x.elem:" << x.n_elem << endl << "inc:" << inc << endl;
+	int nf = floor((x.n_elem - len + inc) / inc);
+	cout << "nf:" << nf << endl << "len:" << len << endl;
 
-	int nf = floor((nx - len + inc) / inc);
 	mat frameout(1, nf*len + 1);
 	mat a(nf, 1);
 	for (int i = 0; i < nf; i++) {
