@@ -3,4 +3,5 @@ The functions include
 enframe  
 mean  
 hanning  
-fft
+fft  
+...
