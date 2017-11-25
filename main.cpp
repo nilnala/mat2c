@@ -109,8 +109,7 @@ void audioread(string dest, mat x, int Fs) {
 }
 
 int main() {
-	
-	string dest;
+	/*string dest;
 	cin >> dest;
 	mat x;
 	int Fs = 0;
@@ -140,11 +139,11 @@ int main() {
 	
 	mat m = { {1,2} ,{3,4} };
 	Complex* c = mat2com(m);
-	cout << c[0].Re() << endl;
+	cout << c[0].Re() << endl;*/
 	
-
-
-	//mat a = hanning(200);
+	
+	cout << hanning(3).t() << endl;
+	cout << hanning(6).t() << endl;
 
 	int T;
 	cin >> T;

@@ -1,6 +1,5 @@
-﻿  enframe.cpp
-d:\project\cpp\helaoshi\demo\demo\enframe.cpp(22): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
-d:\project\cpp\helaoshi\demo\demo\enframe.cpp(32): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-d:\project\cpp\helaoshi\demo\demo\enframe.cpp(50): warning C4018: “<”: 有符号/无符号不匹配
-d:\project\cpp\helaoshi\demo\demo\enframe.cpp(51): warning C4244: “参数”: 从“double”转换到“const arma::uword”，可能丢失数据
+﻿  main.cpp
+  hanning.cpp
+  正在生成代码...
+d:\project\cpp\helaoshi\demo\demo\hanning.cpp(47): warning C4715: “hanning”: 不是所有的控件路径都返回值
   demo.vcxproj -> D:\project\CPP\helaoshi\demo\Debug\demo.exe
