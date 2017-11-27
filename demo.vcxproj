@@ -129,6 +129,7 @@
     <ClInclude Include="enframe.h" />
     <ClInclude Include="fft.h" />
     <ClInclude Include="hanning.h" />
+    <ClInclude Include="IFFT.h" />
     <ClInclude Include="meta.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

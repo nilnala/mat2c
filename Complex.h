@@ -2,6 +2,8 @@
 #define _BA_COMPLEX_H_
 
 #include <cmath>
+#include<armadillo>
+using namespace arma;
 
 class Complex
 {
@@ -91,11 +93,11 @@ Complex* mat2com(mat a) {
 	int alen = a.n_cols;
 	Complex* c = new Complex[alen];
 	for (int i = 0; i < alen; i++)
-		c[i].Update(a(0, i), 0);
+		c[i].Update(a(0, i), a(1,i));
 	return c;
 }
 
-mat com2mat(Complex c[],int num) {
+mat com2mat(Complex* c,int num) {
 	mat a(2,num);
 	for (int i = 0; i < num; i++) {
 		a(0, i) = c[i].Re();

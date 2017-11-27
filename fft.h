@@ -198,9 +198,9 @@ void FFT(Complex IN[], Complex OUT[], int Size)
 
 
 mat FFT(mat m) {
-	int num = m.n_elem;
+	int num = m.n_cols;
 
-	Complex* OUT = new Complex[m.n_elem];
+	Complex* OUT = new Complex[num];
 
 	FFT(mat2com(m), OUT, num);
 

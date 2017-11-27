@@ -15,6 +15,7 @@
 #include"enframe.h"
 #include"fft.h"
 #include"Complex.h"
+#include"IFFT.h"
 #define pi 3.1415926
 using namespace std;
 using namespace arma;
@@ -125,11 +126,16 @@ int main() {
 	*/
 
 
-	mat m = {1,2,-1,3};
+	mat m = {
+		{1,2,-1,3},
+		{0,0,0,0}
+	};
 
-	cout<<FFT(m);
+	mat c = FFT(m);
 
+	cout << c;
 
+	cout << IFFT(c);
 
 	int T;
 	cin >> T;

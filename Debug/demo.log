@@ -1,6 +1,4 @@
 ﻿  main.cpp
-  正在生成代码...
-  正在跳过...(未检测到相关更改)
-  meta.cpp
-  hanning.cpp
+d:\project\cpp\helaoshi\demo\demo\ifft.h(69): warning C4101: “i”: 未引用的局部变量
+d:\project\cpp\helaoshi\demo\demo\ifft.h(106): warning C4101: “i”: 未引用的局部变量
   demo.vcxproj -> D:\project\CPP\helaoshi\demo\Debug\demo.exe
