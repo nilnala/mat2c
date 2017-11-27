@@ -1,5 +1,6 @@
 ﻿  main.cpp
-  hanning.cpp
   正在生成代码...
-d:\project\cpp\helaoshi\demo\demo\hanning.cpp(47): warning C4715: “hanning”: 不是所有的控件路径都返回值
+  正在跳过...(未检测到相关更改)
+  meta.cpp
+  hanning.cpp
   demo.vcxproj -> D:\project\CPP\helaoshi\demo\Debug\demo.exe

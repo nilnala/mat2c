@@ -19,14 +19,6 @@
 using namespace std;
 using namespace arma;
 
-Complex* mat2com(mat a) {
-	int alen = a.n_cols;
-	Complex* c = new Complex[alen];
-	for (int i = 0; i < alen; i++)
-		c[i].Update(a(0, i),0);
-	return c;
-}
-
 
 /*
 void zero_cross(mat xx, int fs) {
@@ -109,7 +101,8 @@ void audioread(string dest, mat x, int Fs) {
 }
 
 int main() {
-	/*string dest;
+
+	/*	string dest;
 	cin >> dest;
 	mat x;
 	int Fs = 0;
@@ -129,21 +122,14 @@ int main() {
 	mat n2 = meta(W2);
 	mat freq = (n2 - 1)*Fs / wlen;
 
-	Complex* in = mat2com(y);
+	*/
 
-	Complex* out = new Complex[y.n_elem];
 
-	FFT(in, out, y.n_elem);
+	mat m = {1,2,-1,3};
 
-	cout << out << endl;
-	
-	mat m = { {1,2} ,{3,4} };
-	Complex* c = mat2com(m);
-	cout << c[0].Re() << endl;*/
-	
-	
-	cout << hanning(3).t() << endl;
-	cout << hanning(6).t() << endl;
+	cout<<FFT(m);
+
+
 
 	int T;
 	cin >> T;

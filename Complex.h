@@ -87,4 +87,22 @@ public:
 	}
 };
 
+Complex* mat2com(mat a) {
+	int alen = a.n_cols;
+	Complex* c = new Complex[alen];
+	for (int i = 0; i < alen; i++)
+		c[i].Update(a(0, i), 0);
+	return c;
+}
+
+mat com2mat(Complex c[],int num) {
+	mat a(2,num);
+	for (int i = 0; i < num; i++) {
+		a(0, i) = c[i].Re();
+		a(1, i) = c[i].Im();
+	}
+	return a;
+}
+
+
 #endif#pragma once

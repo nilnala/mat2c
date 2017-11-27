@@ -1,10 +1,7 @@
-#include "Complex.h"
-#include <cmath>
-#include "Complex.h"
-
 #ifndef _BA_FFT_H_
 #define _BA_FFT_H_
-
+#include "Complex.h"
+#include <cmath>
 // 最大FFT样本数
 #define MAX_FFT_SIZE 4096
 
@@ -199,4 +196,15 @@ void FFT(Complex IN[], Complex OUT[], int Size)
 
 } // FFT结束。
 
+
+mat FFT(mat m) {
+	int num = m.n_elem;
+
+	Complex* OUT = new Complex[m.n_elem];
+
+	FFT(mat2com(m), OUT, num);
+
+	return com2mat(OUT, num);
+
+}
 #endif
