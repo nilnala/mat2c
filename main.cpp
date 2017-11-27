@@ -119,6 +119,69 @@ void create_spectrogram(string dest) {
 	spectrogram(y, w, overlap_new, nfft, fs, "yaxis");
 }
 
+/*
+计算短时帧能量，即energy.m转.c
+*/
+/*void energy(mat x, double Fs)
+{
+	int wlen = 200;
+	int inc = 80;			//给出帧长和帧移
+	mat win = hanning(wlen);	//给出海宁窗
+	int N = x.n_cols;		//信号长度
+	mat X = enframe(x, win, inc).t();	//分帧
+	int fn = X.n_cols;		//求出帧数
+	mat time(1,N);
+	for (int i = 1; i <= N; i++)
+	{
+		time(i - 1) = (i - 1) / Fs;
+	}
+	//需要计算X的行数和列数来每次取出一行
+	int len;
+	int nx = x.n_elem;	//取数据长度
+	int nwin = win.n_elem;	//取窗长
+	if (1 == nwin)	//判断窗长是否为1，若为1，即表示没有设窗函数
+	{
+		len = win(0);	//是，帧长=win
+	}
+	else
+	{
+		len = nwin;		//否，帧长=窗长
+	}
+	int nf = floor((nx - len + inc) / inc);	//计算帧数
+	int j = 1;
+
+	mat En(1, fn);			//对一帧累加求和
+	for (int t = 1; t <= fn; t++)
+	{
+		mat u(len, 1);			//取出一帧
+		for (int k = 0; k < nf; k++)
+		{
+			for (int i = 1; j < j + len, i < len + 1; j++, i++) {
+
+				u(i - 1) = X(j - 1);
+			}
+		}
+		mat u2 = u % u;		//求出能量
+		En(t - 1) = accu(u2);
+		
+	}
+
+	mat frameTime = frame2time(fn, wlen, inc, Fs);   // 求出每帧对应的时间
+}
+/*
+分帧后计算每帧时间，即frame2time.m转.c
+*/
+/*mat frame2time(int frameNum,int frameLen,int inc,double fs)
+{
+	mat frametime(1,frameNum);
+	for (int i = 1; i <= frameNum; i++)
+	{
+	
+		frametime(i-1)=((i - 1)*inc + frameLen/2)/fs;	//分帧后每帧对应的时间
+	}
+	return frametime;
+
+}
 */
 
 
