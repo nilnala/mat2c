@@ -127,7 +127,7 @@ void create_spectrogram(string dest) {
 	int wlen = 200;
 	int inc = 80;			//给出帧长和帧移
 	mat win = hanning(wlen);	//给出海宁窗
-	int N = x.n_cols;		//信号长度
+	int N = x.n_elem;		//信号长度
 	mat X = enframe(x, win, inc).t();	//分帧
 	int fn = X.n_cols;		//求出帧数
 	mat time(1,N);
@@ -187,6 +187,45 @@ void create_spectrogram(string dest) {
 
 int main() {
 	hanning(200);
+  /*
+	将pr_2_4_1.m转为.c
+	N=length(x); time=(0:N-1)/Fs;       % 计算时间
+	y=enframe(x,win,inc)';              % 分帧
+	fn=size(y,2);                       % 帧数
+	frameTime=(((1:fn)-1)*inc+wlen/2)/Fs; % 计算每帧对应的时间
+	W2=wlen/2+1; n2=1:W2;
+	freq=(n2-1)*Fs/wlen;                % 计算FFT后的频率刻度
+	Y=fft(y);                           % 短时傅里叶变换
+	*/
+	/*string file = "C:\\Users\\Wimdows\\Desktop\\MATLAB任务\\声谱图，能量函数，过零率\\bluesky3.wav";
+	mat x;
+	int Fs;
+	audioread(file, x, Fs);		//读入数据文件
+	int wlen = 300;
+	int inc = 80;
+	mat win = hanning(wlen);	//设置帧长，帧移和窗函数
+	int N = x.n_elem;
+	mat time(1, N);				//计算时间
+	for (int i = 1; i <= N; i++)
+	{
+		time(i - 1) = (i - 1) / Fs;
+	}
+	mat y = enframe(x, win, inc).t();//分帧
+	int fn = y.n_cols;				//帧数
+	mat frameTime = frame2time(fn, wlen, inc, Fs);//计算每帧对应的时间
+	int W2 = wlen / 2 + 1;
+	mat n2(1, W2);
+	for (int i = 1; i <= W2; i++)
+	{
+		n2(i - 1) = i;
+	}
+	mat freq(1, W2);		//计算FFT后的频率刻度
+	for (int i = 1; i <= W2; i++)
+	{
+		freq(i - 1) = (n2(i - 1) - 1)*Fs / wlen;
+	}
+	cx_mat Y = fft(y);				// 短时傅里叶变换
+	*/
 
 
 	int T;
