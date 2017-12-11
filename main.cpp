@@ -17,6 +17,17 @@
 using namespace std;
 using namespace arma;
 
+struct wav_struct
+{
+	unsigned long file_size;        //文件大小
+	unsigned short channel;            //通道数
+	int frequency;        //采样频率
+	unsigned long Bps;                //Byte率
+	unsigned short sample_num_bit;    //一个样本的位数
+	unsigned long data_size;        //数据大小
+	unsigned char *data;            //音频数据 ,这里要定义什么就看样本位数了，我这里只是单纯的复制数据
+};
+void audioread(string file,int &Fs,mat &x);
 /*
 mat tranverse(mat x, int win, int inc);
 void audioread(string dest, mat x, int* Fs);//input dest,output x & Fs
@@ -197,10 +208,11 @@ int main() {
 	freq=(n2-1)*Fs/wlen;                % 计算FFT后的频率刻度
 	Y=fft(y);                           % 短时傅里叶变换
 	*/
-	/*string file = "C:\\Users\\Wimdows\\Desktop\\MATLAB任务\\声谱图，能量函数，过零率\\bluesky3.wav";
+	/*
+  string file = "C:\\tone.wav";//输入文件名
+	int Fs = 0;
 	mat x;
-	int Fs;
-	audioread(file, x, Fs);		//读入数据文件
+	audioread(file, Fs,x);		//读入数据文件
 	int wlen = 300;
 	int inc = 80;
 	mat win = hanning(wlen);	//设置帧长，帧移和窗函数
@@ -231,4 +243,85 @@ int main() {
 	int T;
 	cin >> T;
 	return 0;
+}
+
+void audioread(string file,int &Fs,mat &x) {
+	wav_struct WAV;
+	fstream fs;
+	fs.open(file, ios::binary | ios::in);
+	
+	fs.seekg(0, ios::end);        //用c++常用方法获得文件大小
+	WAV.file_size = fs.tellg();
+
+	fs.seekg(0x14);
+	fs.read((char*)&WAV.channel, sizeof(WAV.channel));
+
+	fs.seekg(0x18);
+	fs.read((char*)&WAV.frequency, sizeof(WAV.frequency));
+
+	fs.seekg(0x1c);
+	fs.read((char*)&WAV.Bps, sizeof(WAV.Bps));
+
+	fs.seekg(0x22);
+	fs.read((char*)&WAV.sample_num_bit, sizeof(WAV.sample_num_bit));
+
+	fs.seekg(0x28);
+	fs.read((char*)&WAV.data_size, sizeof(WAV.data_size));
+
+	WAV.data = new unsigned char[WAV.data_size];
+
+
+	fs.seekg(0x2c);
+	fs.read((char *)WAV.data, sizeof(char)*WAV.data_size);
+	
+	mat x1(1, WAV.data_size/2);
+	Fs = WAV.frequency;
+
+
+	//cout << "文件大小为  ：" << WAV.file_size << endl;
+	//cout << "音频通道数  ：" << WAV.channel << endl;
+	//cout << "采样频率    ：" << WAV.frequency << endl;
+	//cout << "Byte率      ：" << WAV.Bps << endl;
+	//cout << "样本位数    ：" << WAV.sample_num_bit << endl;
+	//cout << "音频数据大小：" << WAV.data_size << endl;
+	//cout << "数据：" << endl;
+	unsigned long a = 0;
+	for (unsigned long i = 0; i<WAV.data_size; i = i + 2)
+	{
+		a++;
+		//右边为大端
+		unsigned long data_low = WAV.data[i];
+		unsigned long data_high = WAV.data[i + 1];
+		double data_true = data_high * 256 + data_low;
+		//printf("%d ",data_true);
+		long data_complement = 0;
+		//取大端的最高位（符号位）
+		int my_sign = (int)(data_high / 128);
+		//printf("%d ", my_sign);
+		if (my_sign == 1)
+		{
+			data_complement = data_true - 65536;
+		}
+		else
+		{
+			data_complement = data_true;
+		}
+		//printf("%d ", data_complement);
+		setprecision(4);
+		double float_data = (double)(data_complement / (double)32768);
+		//printf("%f ", float_data);
+		x1[i / 2] = float_data;
+		//printf("  %f  ", x[i/2]);
+
+		//data_normalization[i] = (char)float_data;
+		//printf("%f ", data_normalization[i]);		
+		//bitset<8>lsc_high(data_high);
+		//string high_binary = lsc_high.to_string();		
+		//bitset<8> low_binary (low_data);			
+	}
+	x = x1;
+//	cout << a;
+	
+	fs.close();
+	delete[] WAV.data;
 }
