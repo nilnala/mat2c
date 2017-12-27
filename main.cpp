@@ -19,13 +19,13 @@ using namespace arma;
 
 struct wav_struct
 {
-	unsigned long file_size;        //ÎÄ¼ş´óĞ¡
-	unsigned short channel;            //Í¨µÀÊı
-	int frequency;        //²ÉÑùÆµÂÊ
-	unsigned long Bps;                //ByteÂÊ
-	unsigned short sample_num_bit;    //Ò»¸öÑù±¾µÄÎ»Êı
-	unsigned long data_size;        //Êı¾İ´óĞ¡
-	unsigned char *data;            //ÒôÆµÊı¾İ ,ÕâÀïÒª¶¨ÒåÊ²Ã´¾Í¿´Ñù±¾Î»ÊıÁË£¬ÎÒÕâÀïÖ»ÊÇµ¥´¿µÄ¸´ÖÆÊı¾İ
+	unsigned long file_size;        //æ–‡ä»¶å¤§å°
+	unsigned short channel;            //é€šé“æ•°
+	int frequency;        //é‡‡æ ·é¢‘ç‡
+	unsigned long Bps;                //Byteç‡
+	unsigned short sample_num_bit;    //ä¸€ä¸ªæ ·æœ¬çš„ä½æ•°
+	unsigned long data_size;        //æ•°æ®å¤§å°
+	unsigned char *data;            //éŸ³é¢‘æ•°æ® ,è¿™é‡Œè¦å®šä¹‰ä»€ä¹ˆå°±çœ‹æ ·æœ¬ä½æ•°äº†ï¼Œæˆ‘è¿™é‡Œåªæ˜¯å•çº¯çš„å¤åˆ¶æ•°æ®
 };
 void audioread(string file,int &Fs,mat &x);
 /*
@@ -131,40 +131,40 @@ void create_spectrogram(string dest) {
 }
 
 /*
-¼ÆËã¶ÌÊ±Ö¡ÄÜÁ¿£¬¼´energy.m×ª.c
+è®¡ç®—çŸ­æ—¶å¸§èƒ½é‡ï¼Œå³energy.mè½¬.c
 */
 /*void energy(mat x, double Fs)
 {
 	int wlen = 200;
-	int inc = 80;			//¸ø³öÖ¡³¤ºÍÖ¡ÒÆ
-	mat win = hanning(wlen);	//¸ø³öº£Äş´°
-	int N = x.n_elem;		//ĞÅºÅ³¤¶È
-	mat X = enframe(x, win, inc).t();	//·ÖÖ¡
-	int fn = X.n_cols;		//Çó³öÖ¡Êı
+	int inc = 80;			//ç»™å‡ºå¸§é•¿å’Œå¸§ç§»
+	mat win = hanning(wlen);	//ç»™å‡ºæµ·å®çª—
+	int N = x.n_elem;		//ä¿¡å·é•¿åº¦
+	mat X = enframe(x, win, inc).t();	//åˆ†å¸§
+	int fn = X.n_cols;		//æ±‚å‡ºå¸§æ•°
 	mat time(1,N);
 	for (int i = 1; i <= N; i++)
 	{
 		time(i - 1) = (i - 1) / Fs;
 	}
-	//ĞèÒª¼ÆËãXµÄĞĞÊıºÍÁĞÊıÀ´Ã¿´ÎÈ¡³öÒ»ĞĞ
+	//éœ€è¦è®¡ç®—Xçš„è¡Œæ•°å’Œåˆ—æ•°æ¥æ¯æ¬¡å–å‡ºä¸€è¡Œ
 	int len;
-	int nx = x.n_elem;	//È¡Êı¾İ³¤¶È
-	int nwin = win.n_elem;	//È¡´°³¤
-	if (1 == nwin)	//ÅĞ¶Ï´°³¤ÊÇ·ñÎª1£¬ÈôÎª1£¬¼´±íÊ¾Ã»ÓĞÉè´°º¯Êı
+	int nx = x.n_elem;	//å–æ•°æ®é•¿åº¦
+	int nwin = win.n_elem;	//å–çª—é•¿
+	if (1 == nwin)	//åˆ¤æ–­çª—é•¿æ˜¯å¦ä¸º1ï¼Œè‹¥ä¸º1ï¼Œå³è¡¨ç¤ºæ²¡æœ‰è®¾çª—å‡½æ•°
 	{
-		len = win(0);	//ÊÇ£¬Ö¡³¤=win
+		len = win(0);	//æ˜¯ï¼Œå¸§é•¿=win
 	}
 	else
 	{
-		len = nwin;		//·ñ£¬Ö¡³¤=´°³¤
+		len = nwin;		//å¦ï¼Œå¸§é•¿=çª—é•¿
 	}
-	int nf = floor((nx - len + inc) / inc);	//¼ÆËãÖ¡Êı
+	int nf = floor((nx - len + inc) / inc);	//è®¡ç®—å¸§æ•°
 	int j = 1;
 
-	mat En(1, fn);			//¶ÔÒ»Ö¡ÀÛ¼ÓÇóºÍ
+	mat En(1, fn);			//å¯¹ä¸€å¸§ç´¯åŠ æ±‚å’Œ
 	for (int t = 1; t <= fn; t++)
 	{
-		mat u(len, 1);			//È¡³öÒ»Ö¡
+		mat u(len, 1);			//å–å‡ºä¸€å¸§
 		for (int k = 0; k < nf; k++)
 		{
 			for (int i = 1; j < j + len, i < len + 1; j++, i++) {
@@ -172,15 +172,15 @@ void create_spectrogram(string dest) {
 				u(i - 1) = X(j - 1);
 			}
 		}
-		mat u2 = u % u;		//Çó³öÄÜÁ¿
+		mat u2 = u % u;		//æ±‚å‡ºèƒ½é‡
 		En(t - 1) = accu(u2);
 		
 	}
 
-	mat frameTime = frame2time(fn, wlen, inc, Fs);   // Çó³öÃ¿Ö¡¶ÔÓ¦µÄÊ±¼ä
+	mat frameTime = frame2time(fn, wlen, inc, Fs);   // æ±‚å‡ºæ¯å¸§å¯¹åº”çš„æ—¶é—´
 }
 /*
-·ÖÖ¡ºó¼ÆËãÃ¿Ö¡Ê±¼ä£¬¼´frame2time.m×ª.c
+åˆ†å¸§åè®¡ç®—æ¯å¸§æ—¶é—´ï¼Œå³frame2time.mè½¬.c
 */
 /*mat frame2time(int frameNum,int frameLen,int inc,double fs)
 {
@@ -188,7 +188,7 @@ void create_spectrogram(string dest) {
 	for (int i = 1; i <= frameNum; i++)
 	{
 	
-		frametime(i-1)=((i - 1)*inc + frameLen/2)/fs;	//·ÖÖ¡ºóÃ¿Ö¡¶ÔÓ¦µÄÊ±¼ä
+		frametime(i-1)=((i - 1)*inc + frameLen/2)/fs;	//åˆ†å¸§åæ¯å¸§å¯¹åº”çš„æ—¶é—´
 	}
 	return frametime;
 
@@ -199,44 +199,44 @@ void create_spectrogram(string dest) {
 int main() {
 	hanning(200);
   /*
-	½«pr_2_4_1.m×ªÎª.c
-	N=length(x); time=(0:N-1)/Fs;       % ¼ÆËãÊ±¼ä
-	y=enframe(x,win,inc)';              % ·ÖÖ¡
-	fn=size(y,2);                       % Ö¡Êı
-	frameTime=(((1:fn)-1)*inc+wlen/2)/Fs; % ¼ÆËãÃ¿Ö¡¶ÔÓ¦µÄÊ±¼ä
+	å°†pr_2_4_1.mè½¬ä¸º.c
+	N=length(x); time=(0:N-1)/Fs;       % è®¡ç®—æ—¶é—´
+	y=enframe(x,win,inc)';              % åˆ†å¸§
+	fn=size(y,2);                       % å¸§æ•°
+	frameTime=(((1:fn)-1)*inc+wlen/2)/Fs; % è®¡ç®—æ¯å¸§å¯¹åº”çš„æ—¶é—´
 	W2=wlen/2+1; n2=1:W2;
-	freq=(n2-1)*Fs/wlen;                % ¼ÆËãFFTºóµÄÆµÂÊ¿Ì¶È
-	Y=fft(y);                           % ¶ÌÊ±¸µÀïÒ¶±ä»»
+	freq=(n2-1)*Fs/wlen;                % è®¡ç®—FFTåçš„é¢‘ç‡åˆ»åº¦
+	Y=fft(y);                           % çŸ­æ—¶å‚…é‡Œå¶å˜æ¢
 	*/
 	/*
-  string file = "C:\\tone.wav";//ÊäÈëÎÄ¼şÃû
+  string file = "C:\\tone.wav";//è¾“å…¥æ–‡ä»¶å
 	int Fs = 0;
 	mat x;
-	audioread(file, Fs,x);		//¶ÁÈëÊı¾İÎÄ¼ş
+	audioread(file, Fs,x);		//è¯»å…¥æ•°æ®æ–‡ä»¶
 	int wlen = 300;
 	int inc = 80;
-	mat win = hanning(wlen);	//ÉèÖÃÖ¡³¤£¬Ö¡ÒÆºÍ´°º¯Êı
+	mat win = hanning(wlen);	//è®¾ç½®å¸§é•¿ï¼Œå¸§ç§»å’Œçª—å‡½æ•°
 	int N = x.n_elem;
-	mat time(1, N);				//¼ÆËãÊ±¼ä
-	for (int i = 1; i <= N; i++)
+	mat time(1, N);				//è®¡ç®—æ—¶é—´
+	for (double i = 1.0; i <= N; i++)
 	{
 		time(i - 1) = (i - 1) / Fs;
 	}
-	mat y = enframe(x, win, inc).t();//·ÖÖ¡
-	int fn = y.n_cols;				//Ö¡Êı
-	mat frameTime = frame2time(fn, wlen, inc, Fs);//¼ÆËãÃ¿Ö¡¶ÔÓ¦µÄÊ±¼ä
+	mat y = enframe(x, win, inc).t();//åˆ†å¸§
+	int fn = y.n_cols;				//å¸§æ•°
+	mat frameTime = frame2time(fn, wlen, inc, Fs);//è®¡ç®—æ¯å¸§å¯¹åº”çš„æ—¶é—´
 	int W2 = wlen / 2 + 1;
 	mat n2(1, W2);
 	for (int i = 1; i <= W2; i++)
 	{
 		n2(i - 1) = i;
 	}
-	mat freq(1, W2);		//¼ÆËãFFTºóµÄÆµÂÊ¿Ì¶È
+	mat freq(1, W2);		//è®¡ç®—FFTåçš„é¢‘ç‡åˆ»åº¦
 	for (int i = 1; i <= W2; i++)
 	{
 		freq(i - 1) = (n2(i - 1) - 1)*Fs / wlen;
 	}
-	cx_mat Y = fft(y);				// ¶ÌÊ±¸µÀïÒ¶±ä»»
+	cx_mat Y = fft(y);				// çŸ­æ—¶å‚…é‡Œå¶å˜æ¢
 	*/
 
 
@@ -250,7 +250,7 @@ void audioread(string file,int &Fs,mat &x) {
 	fstream fs;
 	fs.open(file, ios::binary | ios::in);
 	
-	fs.seekg(0, ios::end);        //ÓÃc++³£ÓÃ·½·¨»ñµÃÎÄ¼ş´óĞ¡
+	fs.seekg(0, ios::end);        //ç”¨c++å¸¸ç”¨æ–¹æ³•è·å¾—æ–‡ä»¶å¤§å°
 	WAV.file_size = fs.tellg();
 
 	fs.seekg(0x14);
@@ -278,24 +278,24 @@ void audioread(string file,int &Fs,mat &x) {
 	Fs = WAV.frequency;
 
 
-	//cout << "ÎÄ¼ş´óĞ¡Îª  £º" << WAV.file_size << endl;
-	//cout << "ÒôÆµÍ¨µÀÊı  £º" << WAV.channel << endl;
-	//cout << "²ÉÑùÆµÂÊ    £º" << WAV.frequency << endl;
-	//cout << "ByteÂÊ      £º" << WAV.Bps << endl;
-	//cout << "Ñù±¾Î»Êı    £º" << WAV.sample_num_bit << endl;
-	//cout << "ÒôÆµÊı¾İ´óĞ¡£º" << WAV.data_size << endl;
-	//cout << "Êı¾İ£º" << endl;
+	//cout << "æ–‡ä»¶å¤§å°ä¸º  ï¼š" << WAV.file_size << endl;
+	//cout << "éŸ³é¢‘é€šé“æ•°  ï¼š" << WAV.channel << endl;
+	//cout << "é‡‡æ ·é¢‘ç‡    ï¼š" << WAV.frequency << endl;
+	//cout << "Byteç‡      ï¼š" << WAV.Bps << endl;
+	//cout << "æ ·æœ¬ä½æ•°    ï¼š" << WAV.sample_num_bit << endl;
+	//cout << "éŸ³é¢‘æ•°æ®å¤§å°ï¼š" << WAV.data_size << endl;
+	//cout << "æ•°æ®ï¼š" << endl;
 	unsigned long a = 0;
 	for (unsigned long i = 0; i<WAV.data_size; i = i + 2)
 	{
 		a++;
-		//ÓÒ±ßÎª´ó¶Ë
+		//å³è¾¹ä¸ºå¤§ç«¯
 		unsigned long data_low = WAV.data[i];
 		unsigned long data_high = WAV.data[i + 1];
 		double data_true = data_high * 256 + data_low;
 		//printf("%d ",data_true);
 		long data_complement = 0;
-		//È¡´ó¶ËµÄ×î¸ßÎ»£¨·ûºÅÎ»£©
+		//å–å¤§ç«¯çš„æœ€é«˜ä½ï¼ˆç¬¦å·ä½ï¼‰
 		int my_sign = (int)(data_high / 128);
 		//printf("%d ", my_sign);
 		if (my_sign == 1)
